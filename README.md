@@ -5,51 +5,51 @@
 <h1 align="center">MacDuster</h1>
 
 <p align="center">
-  Un plumero para tu Mac: limpieza, desinstalador, archivos grandes y un panel de estado en la barra de menú.<br>
-  Hecha con SwiftUI, sin dependencias y sin necesidad de Xcode.
+  A feather duster for your Mac: cleanup, uninstaller, large-file finder and a live status panel in the menu bar.<br>
+  Built with SwiftUI, no dependencies and no Xcode required.
 </p>
 
 ---
 
-## Características
+## Features
 
-### Aplicación
+### App
 
-| Módulo | Qué hace |
+| Module | What it does |
 |---|---|
-| **Limpieza** | Analiza cachés de usuario, registros, restos de Xcode, cachés de desarrollo, adjuntos de Mail, copias de iOS y la Papelera. Muestra cuánto ocupa cada categoría y deja elegir qué eliminar. |
-| **Desinstalador** | Lista las aplicaciones instaladas y borra también sus restos (preferencias, cachés, datos de soporte). |
-| **Archivos grandes** | Busca los archivos más pesados, con filtro por tamaño y por tiempo sin usar, y permite revelarlos en el Finder. |
-| **Rendimiento** | Procesos que más memoria consumen, elementos de inicio de sesión y tareas de mantenimiento: liberar RAM, vaciar caché DNS, reindexar Spotlight, reconstruir Launch Services, reiniciar Quick Look, reducir instantáneas de Time Machine y reiniciar Finder y Dock. |
+| **Cleanup** | Scans user caches, logs, Xcode leftovers, developer caches, Mail attachments, iOS backups and the Trash. Shows how much each category takes up and lets you choose what to remove. |
+| **Uninstaller** | Lists installed apps and removes their leftovers too (preferences, caches, support data). |
+| **Large files** | Finds the heaviest files, with filters by size and time since last use, and reveals them in Finder. |
+| **Performance** | Top memory-consuming processes, login items and maintenance tasks: free up RAM, flush the DNS cache, reindex Spotlight, rebuild Launch Services, restart Quick Look, thin Time Machine snapshots and restart Finder and Dock. |
 
-### Panel de la barra de menú
+### Menu bar panel
 
-Un clic en el icono del plumero abre un panel con datos en vivo:
+Click the feather duster icon to open a panel with live data:
 
-- **Disco**: espacio libre y usado, y tamaño de la Papelera con acceso directo para vaciarla.
-- **Memoria** y **procesador**: porcentaje de uso y temperatura de la CPU (Macs Intel).
-- **Red**: velocidad de subida y bajada en tiempo real, y nombre y velocidad de enlace de la Wi-Fi.
-- **Batería**: nivel y estado de carga.
-- **Prueba de velocidad**: mide descarga, subida y agilidad de la conexión con la herramienta `networkQuality` de macOS.
-- **Avisos** cuando queda poco espacio o la Papelera está muy llena, con notificaciones opcionales.
-- Ajustes para iniciar la app al arrancar el Mac.
+- **Disk**: free and used space, plus the Trash size with a shortcut to empty it.
+- **Memory** and **processor**: usage percentage and CPU temperature (Intel Macs).
+- **Network**: real-time upload and download speed, plus the Wi-Fi name and link speed.
+- **Battery**: level and charging state.
+- **Speed test**: measures download, upload and responsiveness using macOS's `networkQuality` tool.
+- **Alerts** when disk space is low or the Trash is very full, with optional notifications.
+- Setting to launch the app at login.
 
-El panel solo mide mientras está abierto, así que no consume recursos en segundo plano.
+The panel only samples while it is open, so it uses no resources in the background.
 
-### Seguridad
+### Safety
 
-- Una guarda de seguridad impide borrar rutas del sistema, el directorio personal o `/Applications`.
-- Lo que no es definitivo se envía a la Papelera en lugar de eliminarse.
-- Las tareas que requieren privilegios piden la contraseña de administrador a través de macOS.
+- A safety guard prevents deleting system paths, the home directory or `/Applications`.
+- Anything that isn't permanent is moved to the Trash instead of being deleted.
+- Tasks that need elevated privileges ask for the administrator password through macOS.
 
-## Requisitos
+## Requirements
 
-- macOS 12 o posterior
-- Herramientas de línea de comandos de Xcode (`xcode-select --install`)
+- macOS 12 or later
+- Xcode command line tools (`xcode-select --install`)
 
-Para eliminar algunos elementos (por ejemplo, cachés de otras apps) conviene conceder **Acceso total al disco** a MacDuster en *Ajustes del Sistema → Privacidad y seguridad*.
+To remove some items (for example, other apps' caches) you may need to grant MacDuster **Full Disk Access** in *System Settings → Privacy & Security*.
 
-## Compilar e instalar
+## Build and install
 
 ```sh
 git clone https://github.com/null-result/macduster.git
@@ -58,43 +58,44 @@ zsh Scripts/build_app.sh
 open build/MacDuster.app
 ```
 
-El script compila con `swiftc` (no hace falta Xcode ni SwiftPM), empaqueta `build/MacDuster.app` y lo firma con una firma ad hoc. Para instalarla, copia el `.app` a `/Applications`.
+The script compiles with `swiftc` (no Xcode or SwiftPM needed), packages `build/MacDuster.app` and signs it with an ad-hoc signature. To install it, copy the `.app` to `/Applications`.
 
-### Pruebas
+### Tests
 
-El paquete también es compatible con SwiftPM (con Xcode instalado):
+The package is also SwiftPM-compatible (with Xcode installed):
 
 ```sh
 swift test
 ```
 
-## Estructura
+## Project layout
 
 ```
 Sources/
-  MacDusterCore/   Lógica sin interfaz: análisis, borrado seguro, estadísticas del sistema,
-                   temperatura (SMC), prueba de velocidad, mantenimiento
-  MacDuster/       Interfaz SwiftUI y panel de la barra de menú
+  MacDusterCore/   UI-free logic: scanning, safe deletion, system stats,
+                   temperature (SMC), speed test, maintenance
+  MacDuster/       SwiftUI interface and menu bar panel
 Scripts/
-  build_app.sh     Compila y empaqueta la aplicación
-  make_icon.swift  Dibuja el icono en vectorial y genera el .icns
-Tests/             Pruebas de la capa Core
+  build_app.sh     Builds and packages the app
+  make_icon.swift  Draws the vector icon and generates the .icns
+Tests/             Core layer tests
 ```
 
-## Diseño
+## Design
 
-Fondo grafito neutro, superficies translúcidas con filo fino y un único color de acento por módulo (turquesa, rosa, azul y ámbar). El icono se genera por código desde `Scripts/make_icon.swift`:
+Neutral graphite background, translucent surfaces with hairline borders and a single accent color per module (teal, pink, blue and amber). The icon is generated in code from `Scripts/make_icon.swift`:
 
 ```sh
 swift Scripts/make_icon.swift
 iconutil -c icns build/AppIcon.iconset -o Resources/AppIcon.icns
 ```
 
-## Notas
+## Notes
 
-- La temperatura de la CPU se lee del SMC, por lo que está disponible en Macs Intel; en Apple Silicon la tarjeta muestra solo el uso.
-- El nombre de la red Wi-Fi puede no mostrarse si macOS no concede el permiso de ubicación.
+- CPU temperature is read from the SMC, so it is available on Intel Macs; on Apple Silicon the card shows usage only.
+- The Wi-Fi network name may not appear if macOS doesn't grant location permission.
+- The interface is currently in Spanish.
 
-## Licencia
+## License
 
 [MIT](LICENSE)

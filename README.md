@@ -45,11 +45,21 @@ The panel only samples while it is open, so it uses no resources in the backgrou
 ## Requirements
 
 - macOS 12 or later
-- Xcode command line tools (`xcode-select --install`)
+- To build from source: Xcode command line tools (`xcode-select --install`)
 
 To remove some items (for example, other apps' caches) you may need to grant MacDuster **Full Disk Access** in *System Settings → Privacy & Security*.
 
-## Build and install
+## Download
+
+Grab the latest universal build (Intel and Apple Silicon) from the [Releases page](https://github.com/null-result/macduster/releases/latest), unzip it and drag `MacDuster.app` to `/Applications`.
+
+The app is ad-hoc signed and not notarized, so macOS will warn you the first time. Right-click the app and choose **Open**, or run:
+
+```sh
+xattr -dr com.apple.quarantine /Applications/MacDuster.app
+```
+
+## Build from source
 
 ```sh
 git clone https://github.com/null-result/macduster.git
@@ -58,7 +68,7 @@ zsh Scripts/build_app.sh
 open build/MacDuster.app
 ```
 
-The script compiles with `swiftc` (no Xcode or SwiftPM needed), packages `build/MacDuster.app` and signs it with an ad-hoc signature. To install it, copy the `.app` to `/Applications`.
+The script compiles with `swiftc` (no Xcode or SwiftPM needed), builds a universal binary (Intel + Apple Silicon), packages `build/MacDuster.app` and signs it with an ad-hoc signature. To install it, copy the `.app` to `/Applications`.
 
 ### Tests
 

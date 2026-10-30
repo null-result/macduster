@@ -4,6 +4,7 @@ enum Module: String, CaseIterable, Identifiable {
     case cleanup = "Limpieza"
     case uninstaller = "Desinstalador"
     case largeFiles = "Archivos grandes"
+    case recovery = "Recuperación"
     case performance = "Rendimiento"
 
     var id: String { rawValue }
@@ -12,6 +13,7 @@ enum Module: String, CaseIterable, Identifiable {
         case .cleanup: return "sparkles"
         case .uninstaller: return "app.badge.checkmark"
         case .largeFiles: return "externaldrive.badge.minus"
+        case .recovery: return "lifepreserver"
         case .performance: return "speedometer"
         }
     }
@@ -30,6 +32,7 @@ struct ContentView: View {
                     case .cleanup: CleanupView()
                     case .uninstaller: UninstallerView()
                     case .largeFiles: LargeFilesView()
+                    case .recovery: RecoveryView()
                     case .performance: PerformanceView()
                     }
                 }

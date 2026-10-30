@@ -10,7 +10,7 @@ rm -rf "$OUT" && mkdir -p "$OUT" "$APP/Contents/MacOS" "$APP/Contents/Resources"
 # Binario universal (Intel + Apple Silicon): se compila cada arquitectura y se unen con lipo.
 for ARCH in x86_64 arm64; do
   swiftc -O -wmo -parse-as-library -target "$ARCH-apple-macos12.0" -module-name MacDusterCore \
-    -emit-module -emit-module-path "$OUT/MacDusterCore-$ARCH.swiftmodule" -c Sources/MacDusterCore/*.swift -o "$OUT/MacDusterCore-$ARCH.o"
+    -emit-module -emit-module-path "$OUT/MacDusterCore-$ARCH.swiftmodule" -c Sources/MacDusterCore/**/*.swift -o "$OUT/MacDusterCore-$ARCH.o"
   cp "$OUT/MacDusterCore-$ARCH.swiftmodule" "$OUT/MacDusterCore.swiftmodule"
   swiftc -O -parse-as-library -target "$ARCH-apple-macos12.0" -I "$OUT" "$OUT/MacDusterCore-$ARCH.o" Sources/MacDuster/*.swift -o "$OUT/MacDuster-$ARCH"
 done

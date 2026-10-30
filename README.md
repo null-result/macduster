@@ -20,6 +20,7 @@
 | **Cleanup** | Scans user caches, logs, Xcode leftovers, developer caches, Mail attachments, iOS backups and the Trash. Shows how much each category takes up and lets you choose what to remove. |
 | **Uninstaller** | Lists installed apps and removes their leftovers too (preferences, caches, support data). |
 | **Large files** | Finds the heaviest files, with filters by size and time since last use, and reveals them in Finder. |
+| **Recovery** | Recovers deleted files from a disk, SD card or USB drive. A *quick scan* reads the FAT32/exFAT directories and brings back the original names and folders; a *deep scan* reads the disk sector by sector and rebuilds files by signature (JPEG, PNG, HEIC, MP4/MOV, MP3, PDF, Office, ZIP…). Results are grouped by type (images, videos, audio, documents, archives) and saved to a folder you choose, never on the disk being recovered. |
 | **Performance** | Top memory-consuming processes, login items and maintenance tasks: free up RAM, flush the DNS cache, reindex Spotlight, rebuild Launch Services, restart Quick Look, thin Time Machine snapshots and restart Finder and Dock. |
 
 ### Menu bar panel
@@ -84,6 +85,8 @@ swift test
 Sources/
   MacDusterCore/   UI-free logic: scanning, safe deletion, system stats,
                    temperature (SMC), speed test, maintenance
+    Recovery/      Raw device reader, file signatures, FAT32/exFAT quick scan,
+                   carving engine and recovery
   MacDuster/       SwiftUI interface and menu bar panel
 Scripts/
   build_app.sh     Builds and packages the app
@@ -104,6 +107,8 @@ iconutil -c icns build/AppIcon.iconset -o Resources/AppIcon.icns
 
 - CPU temperature is read from the SMC, so it is available on Intel Macs; on Apple Silicon the card shows usage only.
 - The Wi-Fi network name may not appear if macOS doesn't grant location permission.
+- Recovery reads the raw device (`/dev/rdiskN`). If macOS denies access, MacDuster asks for the administrator password once to hand that device node to the current user (reverted on reboot or eject); granting **Full Disk Access** may also be required.
+- Recovery works best on external drives, SD cards and USB sticks. On the Mac's internal SSD, hardware encryption and TRIM usually make deleted files unrecoverable. Quick scan supports FAT32 and exFAT only; APFS and HFS+ volumes rely on the deep scan, which also lists files that were not deleted.
 - The interface is currently in Spanish.
 
 ## License

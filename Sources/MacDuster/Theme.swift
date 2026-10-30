@@ -29,6 +29,7 @@ extension Module {
         case .cleanup: return Color(hex: 0x2DD4BF)
         case .uninstaller: return Color(hex: 0xF472B6)
         case .largeFiles: return Color(hex: 0x60A5FA)
+        case .recovery: return Color(hex: 0xA78BFA)
         case .performance: return Color(hex: 0xFBBF24)
         }
     }
